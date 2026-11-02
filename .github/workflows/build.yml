@@ -1,0 +1,14 @@
+name: build
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t shtormgram:latest .
+      - run: docker save shtormgram:latest | gzip > shtormgram.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shtormgram-image
+          path: shtormgram.tar.gz
+          compression-level: 0
